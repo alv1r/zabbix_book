@@ -538,47 +538,64 @@ dpkg-reconfigure tzdata
 
 Zabbix Wiki, основной источник информации
 https://www.zabbix.com/documentation/3.0/ru/start
+
 Родной форум на русском
 https://www.zabbix.com/forum/forumdisplay.php?f=21
+
 Неофициальный, но очень полезный сайт:
 https://www.zabbix.org/wiki/Main_Page
+
 Поиск шаблонов:
 https://share.zabbix.com/
 http://monitoringartist.github.io/zabbix-searcher/
+
 Шаблон для WSUS
 https://github.com/zbx-sadman/wsus
+
 Инсталляторы агентов для Windows 32/64
 http://www.suiviperf.com/zabbix/index.php
+
 Cisco template generator
 http://ross.vc/cisco_tpl/
+
 Мониторинг S.M.A.R.T.
 https://github.com/v-zhuravlev/zbx-smartctl
+
 Мониторим всё: расширение агентов Windows и Linux при помощи скриптов
 https://habrahabr.ru/company/zabbix/blog/196218/
 http://www.bog.pp.ru/work/zabbix.html
+
 Настройка Asterisk:
 https://www.zabbix.com/forum/showthread.php?t=41191
 https://github.com/olindata/tribily-zabbix-templates/blob/master/App_Asterisk/Tpl_Tribily_App_Asterisk_Extended_v1.0.xml
+
 SNMP
 http://www.k-max.name/linux/snmp-protocol/
 https://github.com/macrokernel/zabbix-snmpbuilder/tree/2.4.7
 https://www.zabbix.org/wiki/Snmp_builder
 https://habrahabr.ru/post/85156/
+
 Мониторинг журналов безопасности:
 https://habrahabr.ru/post/215509/
+
 Мониторинг хоста Hyper-V
 https://github.com/ameiji/Zabbix-HyperV-Templates
+
 Рекомендации по «производству» шаблонов
 https://www.zabbix.org/wiki/Docs/template_guidelines
 http://neskripit.ru/blogs/blogs-all/viewpost/724
 http://saradmin.ru/?p=1542
+
 Работа с сервисами в CentOS
 http://www.putorius.net/2014/07/start-services-on-boot-in-red-hat-7-or.html
+
 Мониторинг веб сайта
 http://backnet.ru/2012/01/28/zabbix-kak-nastroit-monitoring-web-sayta/
+
 Мониторинг состояние Windows Server (необходимость перезагрузки)
 https://social.technet.microsoft.com/Forums/ru-RU/a72ebb02-c034-4bdc-8a43-72d2ab9bcb05/-?forum=WS8ru
 https://gallery.technet.microsoft.com/scriptcenter/Get-PendingReboot-Query-bdb79542
+
 PostgreSQL
 https://github.com/lesovsky/zabbix-extensions/tree/master/files/postgresql
 
