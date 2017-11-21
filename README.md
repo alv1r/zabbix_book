@@ -551,6 +551,7 @@ https://www.zabbix.org/wiki/Main_Page
 Поиск шаблонов:
 https://share.zabbix.com/
 http://monitoringartist.github.io/zabbix-searcher/
+https://github.com/thecamels/zabbix
 
 Шаблон для WSUS
 https://github.com/zbx-sadman/wsus
