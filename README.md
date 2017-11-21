@@ -26,6 +26,8 @@ zabbix:<случайный>
 После того, как пользователь создан, добавляем его в группу sudo.
 
 `usermod -a -G sudo имя_пользователя`
+Не забудьте отключить пользователя по умолчанию
+`passwd appliance –l`
 
 
 На все вопросы по работе сервера и клиента вам с удовольствием ответят логи.
@@ -103,7 +105,7 @@ zabbix:<случайный>
 
 ## Установка Zabbix agent в Windows 7/8/2012 32-x/64-x
 Для операционных систем семейства Windows на сайте представлены бинарники агента для 32-х и 64-х разрядных архитектур.
-http://www.zabbix.com/downloads/3.0.0/zabbix_agents_3.0.0.win.zip
+http://www.zabbix.com/downloads/3.4.0/zabbix_agents_3.4.0.win.zip
 Установщик отсутствует. Для установки необходимо проделать несколько шагов:
 1. Открыть в файерволе TCP порт 10050, по которому агент общается с сервером
 netsh advfirewall firewall add rule name="Zabbix Agent" dir=out protocol=tcp localport=10050 action=allow
@@ -143,9 +145,9 @@ LogFileSize=10 – размер файла журнала в мегабайта�
 
 Подробнее про настройку можно почитать тут:
 для Windows
-https://www.zabbix.com/documentation/3.0/ru/manual/appendix/config/zabbix_agentd_win
+https://www.zabbix.com/documentation/3.4/ru/manual/appendix/config/zabbix_agentd_win
 UNIX
-https://www.zabbix.com/documentation/3.0/ru/manual/appendix/config/zabbix_agentd
+https://www.zabbix.com/documentation/3.4/ru/manual/appendix/config/zabbix_agentd
 
 
 ## Получение данных от агента.
@@ -340,7 +342,7 @@ SMTP сервер smtp.yandex.ru
 Порт SMTP сервера 465
 SMTP helo yandex.ru
 SMTP email адрес_для_отправки@домен.ру
-Безопасность подключения НетSTARTTLSSSL/TLS
+Безопасность подключения SSL/TLS
 Проверка SSL узла нет
 Проверка SSL хоста нет
 Аутентификация НетОбычный пароль
@@ -585,6 +587,11 @@ https://github.com/ameiji/Zabbix-HyperV-Templates
 https://www.zabbix.org/wiki/Docs/template_guidelines
 http://neskripit.ru/blogs/blogs-all/viewpost/724
 http://saradmin.ru/?p=1542
+
+Мониторинг свичей D-Link
+https://share.zabbix.com/official-templates/template-modules-pack
+https://share.zabbix.com/official-templates/network-devices/template-net-d-link-des-dgs-switch-snmpv2
+
 
 Работа с сервисами в CentOS
 http://www.putorius.net/2014/07/start-services-on-boot-in-red-hat-7-or.html
