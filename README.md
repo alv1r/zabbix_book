@@ -30,11 +30,11 @@ zabbix:<случайный>
 
 На все вопросы по работе сервера и клиента вам с удовольствием ответят логи.
 Логи сервера лежат по пути:
-/var/log/zabbix/zabbix_server.log
+`/var/log/zabbix/zabbix_server.log`
 Агента:
-/var/log/zabbix/zabbix_agentd.log 
+`/var/log/zabbix/zabbix_agentd.log `
 Команда:
-tail -f /путь/к/файлу 
+`tail -f /путь/к/файлу` 
 поможет в прямом эфире отслеживать, что же происходит.
 На картинке пример просмотра логов агента.
 
@@ -69,36 +69,36 @@ tail -f /путь/к/файлу
 ## Установка Zabbix agent в CentOS 7
 
 
-sudo bash
-rpm -ivh http://repo.zabbix.com/zabbix/3.2/rhel/7/x86_64/zabbix-release-3.2-1.el7.noarch.rpm
+`sudo bash`
+`rpm -ivh http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.2-1.el7.noarch.rpm`
 
-yum install zabbix-agent
+`yum install zabbix-agent` 
 
 По умолчанию в CentOS сервис не запускается автоматически при перезагрузке!
 Убеждаемся в этом:
-systemctl status zabbix-agent
+`systemctl status zabbix-agent`
 
 И добавляем его в автозагрузку:
-systemctl enable zabbix-agent
+`systemctl enable zabbix-agent`
 
 Запускаем сервис:
-systemctl start zabbix-agent
+`systemctl start zabbix-agent`
 Проверяем, все ли в порядк:
-systemctl status zabbix-agent
+`systemctl status zabbix-agent`
 
 
-## Установка Zabbix agent в Ubuntu 14.04 LTS
+## Установка Zabbix agent в Ubuntu 16.04 LTS
 
 
-`sudo bash
+`sudo bash`
 
-wget http://repo.zabbix.com/zabbix/3.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.0-1+trusty_all.deb
+`wget http://repo.zabbix.com/zabbix/3.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.4-1+trusty_all.deb`
 
-dpkg -i zabbix-release_3.0-1+trusty_all.deb
+`dpkg -i zabbix-release_3.4-1+trusty_all.deb`
 
-apt-get update
+`apt-get update`
 
-apt-get install zabbix-agent`
+`apt-get install zabbix-agent`
 
 
 ## Установка Zabbix agent в Windows 7/8/2012 32-x/64-x
