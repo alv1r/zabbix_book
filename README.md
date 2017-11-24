@@ -33,12 +33,19 @@ zabbix:<случайный>
 
 На все вопросы по работе сервера и клиента вам с удовольствием ответят логи.
 Логи сервера лежат по пути:
+
 `/var/log/zabbix/zabbix_server.log`
+
 Агента:
-`/var/log/zabbix/zabbix_agentd.log `
+
+`/var/log/zabbix/zabbix_agentd.log`
+
 Команда:
+
 `tail -f /путь/к/файлу` 
+
 поможет в прямом эфире отслеживать, что же происходит.
+
 На картинке пример просмотра логов агента.
 
 
@@ -108,21 +115,36 @@ zabbix:<случайный>
 Для операционных систем семейства Windows на сайте представлены бинарники агента для 32-х и 64-х разрядных архитектур.
 http://www.zabbix.com/downloads/3.4.0/zabbix_agents_3.4.0.win.zip
 Установщик отсутствует. Для установки необходимо проделать несколько шагов:
+
 1. Открыть в файерволе TCP порт 10050, по которому агент общается с сервером
-netsh advfirewall firewall add rule name="Zabbix Agent" dir=out protocol=tcp localport=10050 action=allow
-netsh advfirewall firewall add rule name="Zabbix Agent" dir=in protocol=tcp localport=10050 action=allow
+
+`netsh advfirewall firewall add rule name="Zabbix Agent" dir=out protocol=tcp localport=10050 action=allow`
+
+`netsh advfirewall firewall add rule name="Zabbix Agent" dir=in protocol=tcp localport=10050 action=allow`
+
 2. Распаковать архив
+
 3. Переименовать папку в zabbix_agent
-4. c:\zabbix_agent\bin\win64\zabbix_agentd.exe --config c:\zabbix_agent \conf\zabbix_agentd.conf --install
+
+4. `c:\zabbix_agent\bin\win64\zabbix_agentd.exe --config c:\zabbix_agent \conf\zabbix_agentd.conf --install`
 
 Где: 
 c:\zabbix_agent\bin\win64\zabbix_agentd.exe – путь к исполняемому файлу тебуемой разрядности;
+
 --config c:\zabbix_agent\conf\zabbix_agentd.conf – путь к конфигурационному файлу;
+
 --install – команда для установки сервиса с указанными выше параметрами.
+
 На 64-битных системах требуется 64-битная версия Zabbix агента, чтобы все проверки связанные с запущенными 64-битными процессами корректно работали.
 
+Или возьмите готовое у меня:
+
+https://github.com/alv1r/zabbix_agent
+
+
+
 Подробнее про настройки агента, специфические для Windows можно посмотреть тут:
-https://www.zabbix.com/documentation/3.0/ru/manual/appendix/install/windows_agent
+https://www.zabbix.com/documentation/3.4/ru/manual/appendix/install/windows_agent
 
 Для облегчения задачи я написал скрипт, который автоматически создает конфигурационный файл, открывает порты и устанавливает сервис требуемой разрядности.
 Полный комплект (zabbix_agent) лежит на яндекс диске в папке soft
@@ -130,7 +152,9 @@ https://www.zabbix.com/documentation/3.0/ru/manual/appendix/install/windows_agen
 SET String=%computername%.%userdomain%.local – заменяем на постфикс вашего домена (ru/loc/net) 
 SET Zabbix=192.168.10.31 – заменяем на адрес вашего сервера Zabbix.
 
+
 Настройка Zabbix agent (универсальная)
+
 
 Zabbix agent хранит свои настройки в файле zabbix_agentd.conf .
 В ОС UNIX он хранится по пути /etc/zabbix/zabbix_agentd.conf
