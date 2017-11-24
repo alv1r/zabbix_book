@@ -5,7 +5,7 @@
 Zabbix можно получить по ссылке:
 http://www.zabbix.com/download.php
 Системные требования: *2 ядра CPU / 2ГБ*
-Далее предполагается, что вы скачали с официального сайта образ виртуальной машины, либо ISO-файл и установили его в Ubuntu Server 14.04 LTS.
+Далее предполагается, что вы скачали с официального сайта образ виртуальной машины, либо ISO-файл и установили его в Ubuntu Server 16.04 LTS.
 По умолчанию доступ к веб-интерфейсу разрешен отовсюду.
 Инсталляция готового решения Zabbix имеет следующие пароли:
 Доступ к веб-интерфейсу может быть получен с http://<хост>/zabbix
@@ -160,24 +160,31 @@ Zabbix agent хранит свои настройки в файле zabbix_agent
 В ОС UNIX он хранится по пути /etc/zabbix/zabbix_agentd.conf
 В ОС Windows он хранится по пути zabbix_agent\conf\zabbix_agentd.conf
 Ниже приведена минимальная необходимая для работы конфигурация. 
+
 Server=192.168.10.31 – адрес сервера Zabbix
+
 ServerActive=192.168.10.31 – адрес сервера Zabbix
+
 Hostname=001-0036.et.local – полное имя хоста, в таком виде, каким его видит сервер.
+
 ListenPort=10050  - порт, на котором будет работать агент.
+
 LogFile=c:\zabbix_agent\zabbix_agentd.log  - расположение файла журнала в Windows
+
 LogFile=/var/log/zabbix/zabbix_agentd.log - расположение файла журнала в UNIX
+
 LogFileSize=10 – размер файла журнала в мегабайтах.
 
 Подробнее про настройку можно почитать тут:
 для Windows
+
 https://www.zabbix.com/documentation/3.4/ru/manual/appendix/config/zabbix_agentd_win
 UNIX
+
 https://www.zabbix.com/documentation/3.4/ru/manual/appendix/config/zabbix_agentd
 
 
 ## Получение данных от агента.
-
-
 
 В целях отладки очень удобно получать данные от агента в консоли. 
 За это отвечает утилита zabbix_get. Синтаксис у нее такой:
@@ -283,16 +290,16 @@ UserParameter=ast.uptime,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core s
 UserParameter=ast.reloadtime,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core show uptime' | grep reload | cut -f2 -d: | sed 's/ //g'
 UserParameter=ast.version,sudo -u zabbix sudo /usr/sbin/asterisk -V | cut -f2 -d' '
 
-# Core Stats
-# INFO: Active Calls is Buggy yet.
+### Core Stats
+### INFO: Active Calls is Buggy yet.
 UserParameter=ast.callsdone,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core show calls'| grep -i 'processed' | awk '{print $1}'
 
-# IAX2 Stats
+### IAX2 Stats
 
 UserParameter=iax.status,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'iax2 show registry'|grep Registered |wc -l
 UserParameter=iax.channels,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'iax2 show channels'|grep --text -i 'active IAX channel'|awk '{print $1}'
 
-# SIP Stats
+### SIP Stats
 
 UserParameter=sip.status,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show registry'|grep Registered |wc -l
 UserParameter=sip.peersonline,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show peers'|grep --text -i 'sip peers'|awk '{print $5}'
@@ -300,13 +307,13 @@ UserParameter=sip.peersoffline,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx '
 UserParameter=sip.peers,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show peers'|grep --text -i 'sip peers'|awk '{print $1}'
 
 
-# DNS Manager
+### DNS Manager
 
 UserParameter=dns.status,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'dnsmgr status' | grep 'DNS Manager' | awk '{print $NF}'
 UserParameter=dns.entries,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'dnsmgr status' | grep 'Number of entries' | awk '{print $NF}'
 
 
-# FAX Stats
+### FAX Stats
 
 UserParameter=fax.sessions,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Current Sessions' | awk '{print $NF}'
 UserParameter=fax.transmits,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Transmit Attempts' | awk '{print $NF}'
@@ -314,13 +321,13 @@ UserParameter=fax.receive,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax s
 UserParameter=fax.done,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Completed' | awk '{print $NF}'
 UserParameter=fax.fail,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Failed' | awk '{print $NF}'
 
-# Parked Calls
+### Parked Calls
 
 UserParameter=ast.parkedcalls,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'parkedcalls show' | grep 'parked calls in total' | awk '{print $1}'
 
-# Version information
-# Version Info -- Edit this part for your own loss
-#
+### Version information
+### Version Info -- Edit this part for your own loss
+
 UserParameter=ast.tribily.ver,sudo -u zabbix sudo echo ${VERSION}
 Перезапускаем агент.
 systemctl restart zabbix-agent
@@ -331,8 +338,6 @@ https://github.com/olindata/tribily-zabbix-templates/blob/master/App_Asterisk/Tp
 
 
 ## Мониторинг доступности телефонов на примере аппаратов Yealink.
-
-
 
 Поскольку SNMP доступен не для всех телефонов, а получать с них информацию необходимость есть, мы воспользуемся функцией Zabbix, которая называется Веб мониторинг.
 Создаем узел сети с произвольным именем, без указания адреса, он нам нужен только для привязки к нему сценария.
@@ -564,72 +569,91 @@ dpkg-reconfigure tzdata
 
 
 Zabbix Wiki, основной источник информации
-https://www.zabbix.com/documentation/3.0/ru/start
+
+https://www.zabbix.com/documentation/3.4/ru/start
 
 Родной форум на русском
+
 https://www.zabbix.com/forum/forumdisplay.php?f=21
 
 Неофициальный, но очень полезный сайт:
+
 https://www.zabbix.org/wiki/Main_Page
 
 Поиск шаблонов:
+
 https://share.zabbix.com/
 http://monitoringartist.github.io/zabbix-searcher/
 https://github.com/thecamels/zabbix
 
 Шаблон для WSUS
+
 https://github.com/zbx-sadman/wsus
 
 Инсталляторы агентов для Windows 32/64
+
 http://www.suiviperf.com/zabbix/index.php
 
 Cisco template generator
+
 http://ross.vc/cisco_tpl/
 
 Мониторинг S.M.A.R.T.
+
 https://github.com/v-zhuravlev/zbx-smartctl
 
 Мониторим всё: расширение агентов Windows и Linux при помощи скриптов
+
 https://habrahabr.ru/company/zabbix/blog/196218/
 http://www.bog.pp.ru/work/zabbix.html
 
 Настройка Asterisk:
+
 https://www.zabbix.com/forum/showthread.php?t=41191
 https://github.com/olindata/tribily-zabbix-templates/blob/master/App_Asterisk/Tpl_Tribily_App_Asterisk_Extended_v1.0.xml
 
 SNMP
+
 http://www.k-max.name/linux/snmp-protocol/
 https://github.com/macrokernel/zabbix-snmpbuilder/tree/2.4.7
 https://www.zabbix.org/wiki/Snmp_builder
 https://habrahabr.ru/post/85156/
 
 Мониторинг журналов безопасности:
+
 https://habrahabr.ru/post/215509/
 
 Мониторинг хоста Hyper-V
+
 https://github.com/ameiji/Zabbix-HyperV-Templates
 
 Рекомендации по «производству» шаблонов
+
 https://www.zabbix.org/wiki/Docs/template_guidelines
 http://neskripit.ru/blogs/blogs-all/viewpost/724
 http://saradmin.ru/?p=1542
 
 Мониторинг свичей D-Link
+
 https://share.zabbix.com/official-templates/template-modules-pack
 https://share.zabbix.com/official-templates/network-devices/template-net-d-link-des-dgs-switch-snmpv2
 
 
 Работа с сервисами в CentOS
+
 http://www.putorius.net/2014/07/start-services-on-boot-in-red-hat-7-or.html
 
 Мониторинг веб сайта
+
 http://backnet.ru/2012/01/28/zabbix-kak-nastroit-monitoring-web-sayta/
 
-Мониторинг состояние Windows Server (необходимость перезагрузки)
+Мониторинг состояния Windows Server (необходимость перезагрузки)
+
 https://social.technet.microsoft.com/Forums/ru-RU/a72ebb02-c034-4bdc-8a43-72d2ab9bcb05/-?forum=WS8ru
 https://gallery.technet.microsoft.com/scriptcenter/Get-PendingReboot-Query-bdb79542
 
 PostgreSQL
+
 https://github.com/lesovsky/zabbix-extensions/tree/master/files/postgresql
 
 Before I was trying to use Microsoft-Windows-Hyper-V-VMMS/Admin which is the name on Event Viewer, but on C:\windows\system32\WinEvt\Logs the log name is Microsoft-Windows-Hyper-V-VMMS-Admin which works !!!
