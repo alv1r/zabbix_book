@@ -290,16 +290,16 @@ UserParameter=ast.uptime,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core s
 UserParameter=ast.reloadtime,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core show uptime' | grep reload | cut -f2 -d: | sed 's/ //g'
 UserParameter=ast.version,sudo -u zabbix sudo /usr/sbin/asterisk -V | cut -f2 -d' '
 
-### Core Stats
-### INFO: Active Calls is Buggy yet.
+## Core Stats
+## INFO: Active Calls is Buggy yet.
 UserParameter=ast.callsdone,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core show calls'| grep -i 'processed' | awk '{print $1}'
 
-### IAX2 Stats
+## IAX2 Stats
 
 UserParameter=iax.status,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'iax2 show registry'|grep Registered |wc -l
 UserParameter=iax.channels,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'iax2 show channels'|grep --text -i 'active IAX channel'|awk '{print $1}'
 
-### SIP Stats
+## SIP Stats
 
 UserParameter=sip.status,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show registry'|grep Registered |wc -l
 UserParameter=sip.peersonline,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show peers'|grep --text -i 'sip peers'|awk '{print $5}'
@@ -307,13 +307,13 @@ UserParameter=sip.peersoffline,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx '
 UserParameter=sip.peers,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show peers'|grep --text -i 'sip peers'|awk '{print $1}'
 
 
-### DNS Manager
+## DNS Manager
 
 UserParameter=dns.status,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'dnsmgr status' | grep 'DNS Manager' | awk '{print $NF}'
 UserParameter=dns.entries,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'dnsmgr status' | grep 'Number of entries' | awk '{print $NF}'
 
 
-### FAX Stats
+## FAX Stats
 
 UserParameter=fax.sessions,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Current Sessions' | awk '{print $NF}'
 UserParameter=fax.transmits,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Transmit Attempts' | awk '{print $NF}'
@@ -384,6 +384,7 @@ SMTP email адрес_для_отправки@домен.ру
 
 ## Мониторинг хоста Hyper-V
 
+https://share.zabbix.com/virtualization/hyper-v/hyper-v-template-with-replication-state
 
 
 https://github.com/ameiji/Zabbix-HyperV-Templates
@@ -420,8 +421,6 @@ chown zabbix:zabbix /usr/lib/zabbix/externalscripts/ipmi_proliant.pl
 
 
 ## Мониторинг S.M.A.R.T. в Windows x64
-
-
 
 Для мониторинга используется набор утилит smarttools.
 Скачиваем отсюда
@@ -624,7 +623,7 @@ https://habrahabr.ru/post/85156/
 https://habrahabr.ru/post/215509/
 
 Мониторинг хоста Hyper-V
-
+https://share.zabbix.com/virtualization/hyper-v/hyper-v-template-with-replication-state
 https://github.com/ameiji/Zabbix-HyperV-Templates
 
 Рекомендации по «производству» шаблонов
