@@ -446,6 +446,9 @@ c:\zabbix_agent\scripts\smarttools\bin64\smartctl.exe
 ## Мониторим время окончания оплаты домена с помощью Zabbix
 
 Для мониторинга нам понадобится скрипт и шаблон.
+<details>
+  <summary>checkdomainexpire.sh</summary>
+ 
 ```console
 #!/bin/sh
 
@@ -479,7 +482,23 @@ esac
 # считаем дни и выводим
 expr \( `date --date="$DATE" +%s` - `date +%s` \) / 60 / 60 / 24
 ```
+</details>
 
+Скрипт кладем в каталог по умолчанию для внешних скриптов, который указан в конфигурации сервера zabbix, вот строчка по умолчанию в zabbix-server.conf
+```console
+ExternalScripts=/usr/lib/zabbix/externalscripts/checkdomainexpire.sh
+```
+Теперь выдаем права и делаем его исполняемым:
+```console
+chown zabbix:zabbix /usr/lib/zabbix/externalscripts/checkdomainexpire.sh
+chmod +x /usr/lib/zabbix/externalscripts/checkdomainexpire.sh
+```
+Теперь осталось в агента добавить свой параметр:
+```console
+nano /etc/zabbix/zabbix_agentd.conf
+UserParameter=domainexpire[*],/usr/lib/zabbix/externalscripts/checkdomainexpire.sh $1
+service zabbix-agent reload
+```
 Шаблон берем тут
 
 https://sysadmin-note.ru/monitorim-vremya-okonchaniya-oplaty-domena-s-pomoshhyu-zabbix/
