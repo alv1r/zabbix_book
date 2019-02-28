@@ -443,6 +443,49 @@ https://github.com/v-zhuravlev/zbx-smartctl
 Для обеспечения работы в Windows x32 необходимо заменить в конфигурационном файле все вхождения bin64 на bin32. Как в строке ниже
 c:\zabbix_agent\scripts\smarttools\bin64\smartctl.exe 
 
+## Мониторим время окончания оплаты домена с помощью Zabbix
+
+Для мониторинга нам понадобится скрипт и шаблон.
+```console
+#!/bin/sh
+
+# получаем имя домена
+DOMAIN=$1
+
+# получаем имя зоны
+ZONE=`echo $DOMAIN | sed 's/\./ /' | awk '{ print $2 }'`
+
+# получаем дату протухания домена
+# Должна вернуться в формате ГГГГ-ММ-ДД (год-месяц-день)
+case "$ZONE" in
+ru|net.ru|org.ru|pp.ru)
+DATE=`whois $DOMAIN | grep paid-till | awk '{ print $2 }' | sed 's/\./-/g'`
+;;
+com|net)
+DATE=`whois $DOMAIN | grep "Registration Expiration Date:" | sed 's/Registrar Registration Expiration Date: //g;s/T/ /g' | awk '{ print $1 }'`
+;;
+org)
+DATE=`whois $DOMAIN | grep "Registry Expiry Date:" | sed 's/Registry Expiry Date: //g;s/T/ /g' | awk '{ print $1 }'`
+;;
+*)
+DATE="$(whois $DOMAIN | awk '/[Ee]xpir.*[Dd]ate:/ || /[Tt]ill:/ || /expire/ {print $NF; exit;}')"
+if test -z "$DATE"; then
+#Отсутствует информация в Whois для домена
+echo "-1"
+continue
+fi
+esac
+
+# считаем дни и выводим
+expr \( `date --date="$DATE" +%s` - `date +%s` \) / 60 / 60 / 24
+```
+
+Шаблон берем тут
+
+https://sysadmin-note.ru/monitorim-vremya-okonchaniya-oplaty-domena-s-pomoshhyu-zabbix/
+Привязываем шаблон к узлу сети и создаем макрос
+{$DOMAINNAME} со значением имя.сайта
+
 ## Работа с SNMP. Общие сведения.
 
 
@@ -654,6 +697,10 @@ https://gallery.technet.microsoft.com/scriptcenter/Get-PendingReboot-Query-bdb79
 PostgreSQL
 
 https://github.com/lesovsky/zabbix-extensions/tree/master/files/postgresql
+
+Мониторинг окончания домена
+
+https://sysadmin-note.ru/monitorim-vremya-okonchaniya-oplaty-domena-s-pomoshhyu-zabbix/
 
 Before I was trying to use Microsoft-Windows-Hyper-V-VMMS/Admin which is the name on Event Viewer, but on C:\windows\system32\WinEvt\Logs the log name is Microsoft-Windows-Hyper-V-VMMS-Admin which works !!!
 всем привет! Ребят, подскажите как можно затягивать информацию из текстового файла в zabbix? Сам файл создается скриптом PS(туда сваливаются логи некоторых журналов). Пробовал вот таким ключом на zabbix-сервере: Logrt["D:\zabbix\test.txt"], но в логе агента виндового пишет: active check "Logrt["D:\zabbix\test.txt"]" is not supported
