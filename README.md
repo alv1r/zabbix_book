@@ -295,10 +295,10 @@ Reboot.IsNedeed
 sudo nano /etc/sudoers
 И в самый конец допишем:
 zabbix ALL=(ALL) NOPASSWD:ALL
-Теперь переходим к файлу конфигурации агента и внесем в него нужные изменения:
-nano /etc/zabbix/conf/zabbix_agentd.conf
-И добавляем в конце:
-UserParameter=ast.pid,sudo -u zabbix sudo cat /var/run/asterisk/asterisk.pid
+Теперь создадим отдельный файл настроек для работы с Asterisk
+<details>
+  <summary>nano /etc/zabbix/zabbix_agentd.d/asterisk.conf</summary>
+```UserParameter=ast.pid,sudo -u zabbix sudo cat /var/run/asterisk/asterisk.pid
 UserParameter=ast.uptime,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core show uptime' | grep uptime | cut -f2 -d: | sed 's/ //g'
 UserParameter=ast.reloadtime,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core show uptime' | grep reload | cut -f2 -d: | sed 's/ //g'
 UserParameter=ast.version,sudo -u zabbix sudo /usr/sbin/asterisk -V | cut -f2 -d' '
@@ -342,12 +342,14 @@ UserParameter=ast.parkedcalls,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'p
 ### Version Info -- Edit this part for your own loss
 
 UserParameter=ast.tribily.ver,sudo -u zabbix sudo echo ${VERSION}
+</details>
+
 Перезапускаем агент.
 systemctl restart zabbix-agent
 Скачиваем шаблон отсюда:
 https://github.com/olindata/tribily-zabbix-templates/blob/master/App_Asterisk/Tpl_Tribily_App_Asterisk_Extended_v1.0.xml
 Правой клавшей мыши по кнопке RAW, Сохранить объект как, далее Настройка-Шаблоны-Импорт шаблона, добавляем шаблон и применяем его к нужному узлу.
-В последних данных увидим примерно следующее:
+
 
 
 ## Мониторинг доступности телефонов на примере аппаратов Yealink.
