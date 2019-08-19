@@ -299,8 +299,11 @@ zabbix ALL=(ALL) NOPASSWD:ALL
 <details>
   <summary>nano /etc/zabbix/zabbix_agentd.d/asterisk.conf</summary>
 ```UserParameter=ast.pid,sudo -u zabbix sudo cat /var/run/asterisk/asterisk.pid
+ 
 UserParameter=ast.uptime,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core show uptime' | grep uptime | cut -f2 -d: | sed 's/ //g'
+
 UserParameter=ast.reloadtime,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'core show uptime' | grep reload | cut -f2 -d: | sed 's/ //g'
+
 UserParameter=ast.version,sudo -u zabbix sudo /usr/sbin/asterisk -V | cut -f2 -d' '
 
 ## Core Stats
@@ -310,28 +313,37 @@ UserParameter=ast.callsdone,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'cor
 ## IAX2 Stats
 
 UserParameter=iax.status,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'iax2 show registry'|grep Registered |wc -l
+
 UserParameter=iax.channels,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'iax2 show channels'|grep --text -i 'active IAX channel'|awk '{print $1}'
 
 ## SIP Stats
 
 UserParameter=sip.status,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show registry'|grep Registered |wc -l
+
 UserParameter=sip.peersonline,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show peers'|grep --text -i 'sip peers'|awk '{print $5}'
+
 UserParameter=sip.peersoffline,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show peers'|grep --text -i 'sip peers'|awk '{print $7}'
+
 UserParameter=sip.peers,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'sip show peers'|grep --text -i 'sip peers'|awk '{print $1}'
 
 
 ## DNS Manager
 
 UserParameter=dns.status,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'dnsmgr status' | grep 'DNS Manager' | awk '{print $NF}'
+
 UserParameter=dns.entries,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'dnsmgr status' | grep 'Number of entries' | awk '{print $NF}'
 
 
 ## FAX Stats
 
 UserParameter=fax.sessions,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Current Sessions' | awk '{print $NF}'
+
 UserParameter=fax.transmits,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Transmit Attempts' | awk '{print $NF}'
+
 UserParameter=fax.receive,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Receive Attempts' | awk '{print $NF}'
+
 UserParameter=fax.done,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Completed' | awk '{print $NF}'
+
 UserParameter=fax.fail,sudo -u zabbix sudo /usr/sbin/asterisk -rvvvvvx 'fax show stats' | grep 'Failed' | awk '{print $NF}'
 
 ### Parked Calls
